@@ -341,12 +341,16 @@ const savePolicySchema = z
 
 const worldSchema = z
   .object({
+    moveSpeedPerTick: z.literal(0.15),
+    playerRadius: z.literal(0.28),
+    transitionLockTicks: z.literal(15),
     zones: z.tuple([
       z
         .object({
           id: z.literal('town'),
           role: z.literal('starter-town'),
           features: z.tuple([z.literal('quest-npc')]),
+          map: z.literal('maps/town.tmj'),
         })
         .strict(),
       z
@@ -359,6 +363,7 @@ const worldSchema = z
               max: z.literal(4),
             })
             .strict(),
+          map: z.literal('maps/overworld.tmj'),
         })
         .strict(),
       z
@@ -366,6 +371,9 @@ const worldSchema = z
           id: z.literal('dungeon'),
           role: z.literal('dungeon'),
           features: z.tuple([z.literal('end-boss')]),
+          map: z.literal('maps/dungeon.tmj'),
+          status: z.literal('stub'),
+          continuesIn: z.literal('M5'),
         })
         .strict(),
     ]),

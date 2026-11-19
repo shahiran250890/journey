@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { FixedTickClock } from './clock.ts';
 import { Simulation } from './simulation.ts';
+import type { ZoneMap } from './world/types.ts';
 
 const options = {
   seed: 1,
@@ -120,4 +121,156 @@ describe('Simulation', () => {
     expect(() => sim.enqueue({ type: 'attack', style: 'bow' as 'melee' })).toThrow(/style/);
     expect(() => sim.enqueue({ type: 'use-item', itemId: '   ' })).toThrow(/item/);
   });
+
+  it('resolves movement against zone blockers and keeps a diagonal at the same speed', () => {
+    const open = zone('field', [], [], [{ id: 'default', x: 5, y: 5 }]);
+    const sim = new Simulation({
+      seed: 1,
+      moveSpeedPerTick: 1,
+      spawn: { x: 0, y: 0 },
+      zones: [open],
+      startingZone: 'field',
+      startingSpawn: 'default',
+      bodyRadius: 0.25,
+    });
+    sim.enqueue({ type: 'move', x: 1, y: 1 });
+    sim.tick();
+    expect(sim.getState().player.x).toBeCloseTo(5 + Math.SQRT1_2);
+    expect(sim.getState().player.y).toBeCloseTo(5 + Math.SQRT1_2);
+
+    const walled = zone(
+      'field',
+      [{ kind: 'aabb', minX: 6, minY: 0, maxX: 7, maxY: 10 }],
+      [],
+      [{ id: 'default', x: 5, y: 5 }],
+    );
+    const blocked = new Simulation({
+      seed: 1,
+      moveSpeedPerTick: 1,
+      spawn: { x: 0, y: 0 },
+      zones: [walled],
+      startingZone: 'field',
+      startingSpawn: 'default',
+      bodyRadius: 0.3,
+    });
+    for (let step = 0; step < 10; step += 1) {
+      blocked.enqueue({ type: 'move', x: 1, y: 0 });
+      blocked.tick();
+    }
+    expect(blocked.getState().player.x).toBeLessThan(6 - 0.3 + 1e-6);
+    expect(blocked.getState().player.y).toBeCloseTo(5);
+  });
+
+  it('changes zone on a trigger and does not bounce back during the lock', () => {
+    const town = zone(
+      'town',
+      [],
+      [
+        {
+          id: 'gate',
+          targetZone: 'overworld',
+          targetSpawn: 'from-town',
+          shape: { kind: 'aabb', minX: 8, minY: 0, maxX: 10, maxY: 10 },
+        },
+      ],
+      [{ id: 'default', x: 2, y: 5 }],
+    );
+    const overworld = zone(
+      'overworld',
+      [],
+      [
+        {
+          id: 'back',
+          targetZone: 'town',
+          targetSpawn: 'default',
+          shape: { kind: 'aabb', minX: 0, minY: 0, maxX: 2, maxY: 10 },
+        },
+      ],
+      [{ id: 'from-town', x: 1, y: 5 }],
+    );
+    const sim = new Simulation({
+      seed: 1,
+      moveSpeedPerTick: 1,
+      spawn: { x: 0, y: 0 },
+      zones: [town, overworld],
+      startingZone: 'town',
+      startingSpawn: 'default',
+      bodyRadius: 0.3,
+      transitionLockTicks: 3,
+    });
+    for (let step = 0; step < 12; step += 1) {
+      sim.enqueue({ type: 'move', x: 1, y: 0 });
+      sim.tick();
+      if (sim.getState().zoneId === 'overworld') break;
+    }
+    const arrived = sim.getState();
+    expect(arrived.zoneId).toBe('overworld');
+    expect(arrived.player).toEqual({ x: 1, y: 5 });
+    expect(arrived.lastTransition).toMatchObject({
+      fromZone: 'town',
+      toZone: 'overworld',
+      spawnId: 'from-town',
+    });
+    expect(sim.interpolatePlayer(0)).toEqual({ x: 1, y: 5 });
+    sim.tick();
+    sim.tick();
+    expect(sim.getState().zoneId).toBe('overworld');
+    sim.tick();
+    expect(sim.getState().zoneId).toBe('town');
+  });
+
+  it('teleports to a named spawn on the next tick', () => {
+    const town = zone('town', [], [], [{ id: 'default', x: 1, y: 1 }]);
+    const overworld = zone(
+      'overworld',
+      [],
+      [],
+      [
+        { id: 'default', x: 4, y: 4 },
+        { id: 'dungeon-entrance', x: 8, y: 2 },
+      ],
+    );
+    const sim = new Simulation({
+      seed: 1,
+      moveSpeedPerTick: 1,
+      spawn: { x: 0, y: 0 },
+      zones: [town, overworld],
+      startingZone: 'town',
+      startingSpawn: 'default',
+      bodyRadius: 0.25,
+    });
+    sim.enqueue({ type: 'teleport', zoneId: 'overworld', spawnId: 'dungeon-entrance' });
+    expect(sim.getState().zoneId).toBe('town');
+    sim.tick();
+    expect(sim.getState().zoneId).toBe('overworld');
+    expect(sim.getState().player).toEqual({ x: 8, y: 2 });
+    expect(sim.interpolatePlayer(0.25)).toEqual({ x: 8, y: 2 });
+    sim.enqueue({ type: 'teleport', zoneId: 'overworld', x: 3, y: 6 });
+    sim.tick();
+    expect(sim.getState().player).toEqual({ x: 3, y: 6 });
+    expect(() => sim.enqueue({ type: 'teleport', zoneId: 'missing', spawnId: 'default' })).toThrow(
+      /zone/,
+    );
+  });
 });
+
+function zone(
+  id: string,
+  blockers: ZoneMap['blockers'],
+  triggers: ZoneMap['triggers'],
+  spawns: ZoneMap['spawns'],
+): ZoneMap {
+  return {
+    id,
+    width: 10,
+    height: 10,
+    tileWidth: 64,
+    tileHeight: 32,
+    ground: [],
+    props: [],
+    blockers,
+    triggers,
+    spawns,
+    markers: [],
+  };
+}

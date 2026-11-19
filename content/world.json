@@ -1,11 +1,27 @@
 {
+  "moveSpeedPerTick": 0.15,
+  "playerRadius": 0.28,
+  "transitionLockTicks": 15,
   "zones": [
-    { "id": "town", "role": "starter-town", "features": ["quest-npc"] },
+    {
+      "id": "town",
+      "role": "starter-town",
+      "features": ["quest-npc"],
+      "map": "maps/town.tmj"
+    },
     {
       "id": "overworld",
       "role": "open-zone",
-      "monsterTypeCount": { "min": 3, "max": 4 }
+      "monsterTypeCount": { "min": 3, "max": 4 },
+      "map": "maps/overworld.tmj"
     },
-    { "id": "dungeon", "role": "dungeon", "features": ["end-boss"] }
+    {
+      "id": "dungeon",
+      "role": "dungeon",
+      "features": ["end-boss"],
+      "map": "maps/dungeon.tmj",
+      "status": "stub",
+      "continuesIn": "M5"
+    }
   ]
 }

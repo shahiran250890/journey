@@ -1,0 +1,15 @@
+{
+  "desktopBrowsers": ["chrome", "firefox", "edge"],
+  "attackStyles": ["melee", "magic", "ranged"],
+  "death": {
+    "respawn": "town",
+    "losses": []
+  },
+  "classChange": {
+    "minRarity": "epic",
+    "bossDropChanceOutOf10000": 500,
+    "guaranteedFromOneTimeTownQuest": true,
+    "revertsToClassless": true,
+    "keeps": ["level", "stats", "gear", "questProgress"]
+  }
+}

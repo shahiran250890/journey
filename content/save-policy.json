@@ -1,0 +1,14 @@
+{
+  "status": "proposed",
+  "backend": "indexeddb",
+  "slots": 3,
+  "autosaveIntervalSeconds": 30,
+  "autosaveOn": ["key-event", "interval", "tab-hidden", "tab-close"],
+  "titleScreen": ["continue", "new-game"],
+  "newGameOverwriteConfirm": true,
+  "exportImport": true,
+  "disclosures": [
+    "Saves can be edited by a determined user.",
+    "Saves are lost if site or browser data is cleared."
+  ]
+}

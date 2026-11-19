@@ -1,0 +1,34 @@
+{
+  "stats": [
+    {
+      "id": "STR",
+      "startingValue": 10,
+      "governs": "Melee damage. Carry weight is listed for later; enforcement is deferred for this POC."
+    },
+    {
+      "id": "AGI",
+      "startingValue": 10,
+      "governs": "Ranged damage, attack speed, and dodge."
+    },
+    {
+      "id": "INT",
+      "startingValue": 10,
+      "governs": "Magic damage and mana."
+    },
+    {
+      "id": "VIT",
+      "startingValue": 10,
+      "governs": "HP and defence."
+    },
+    {
+      "id": "DEX",
+      "startingValue": 10,
+      "governs": "Accuracy, crit damage, and cast speed."
+    },
+    {
+      "id": "LUK",
+      "startingValue": 10,
+      "governs": "Crit chance, drop rate, and loot rarity."
+    }
+  ]
+}

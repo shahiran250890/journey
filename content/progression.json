@@ -1,0 +1,9 @@
+{
+  "startingLevel": 1,
+  "levelCap": null,
+  "xpGrowthRatio": 1.2,
+  "levelUpAllStats": 2,
+  "freePointsPerLevel": 5,
+  "unspentPointsPersist": true,
+  "tickHz": 20
+}

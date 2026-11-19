@@ -1,0 +1,11 @@
+{
+  "zones": [
+    { "id": "town", "role": "starter-town", "features": ["quest-npc"] },
+    {
+      "id": "overworld",
+      "role": "open-zone",
+      "monsterTypeCount": { "min": 3, "max": 4 }
+    },
+    { "id": "dungeon", "role": "dungeon", "features": ["end-boss"] }
+  ]
+}

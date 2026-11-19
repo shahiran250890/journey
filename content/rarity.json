@@ -1,0 +1,11 @@
+{
+  "weightScale": 10000,
+  "tiers": [
+    { "id": "common", "weight": 5500, "percent": 55, "extraSkill": false },
+    { "id": "rare", "weight": 2800, "percent": 28, "extraSkill": false },
+    { "id": "epic", "weight": 1200, "percent": 12, "extraSkill": false },
+    { "id": "legendary", "weight": 400, "percent": 4, "extraSkill": true },
+    { "id": "mythical", "weight": 90, "percent": 0.9, "extraSkill": true },
+    { "id": "unique", "weight": 10, "percent": 0.1, "extraSkill": true }
+  ]
+}

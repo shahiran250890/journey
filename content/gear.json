@@ -1,0 +1,6 @@
+{
+  "slots": ["weapon", "armour", "helmet", "boots", "accessory"],
+  "artifactSlot": "artifact",
+  "artifactSeparateFrom": "accessory",
+  "carryWeightEnforced": false
+}

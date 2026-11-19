@@ -1,0 +1,7 @@
+{
+  "move": ["KeyW", "KeyA", "KeyS", "KeyD"],
+  "aim": "mouse",
+  "basicAttack": "MouseLeft",
+  "switchStyle": ["Digit1", "Digit2", "Digit3"],
+  "skillHotkeys": "unspecified"
+}

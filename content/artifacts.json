@@ -1,0 +1,13 @@
+{
+  "examples": [
+    {
+      "id": "example-crit-chance",
+      "passive": "crit-chance",
+      "critChanceBonus": 0.2
+    },
+    {
+      "id": "example-heal-on-kill",
+      "passive": "heal-on-kill"
+    }
+  ]
+}

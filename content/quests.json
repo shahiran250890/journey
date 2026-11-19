@@ -1,0 +1,42 @@
+{
+  "npc": "town-quest-npc",
+  "quests": [
+    {
+      "id": "example-slay-wolves",
+      "kind": "kill",
+      "target": "wolf",
+      "count": 10,
+      "rewardKinds": ["xp", "gold", "item"],
+      "example": true
+    },
+    {
+      "id": "example-bring-herbs",
+      "kind": "collect",
+      "target": "herb",
+      "count": 5,
+      "rewardKinds": ["xp", "gold", "item"],
+      "example": true
+    },
+    {
+      "id": "example-defeat-boss",
+      "kind": "dungeon",
+      "target": "dungeon-boss",
+      "count": 1,
+      "rewardKinds": ["xp", "gold", "item"],
+      "example": true
+    },
+    {
+      "id": "special-class-quest",
+      "kind": "class",
+      "requiresClassless": true,
+      "playerChoosesClass": true,
+      "rewardRarities": ["legendary", "mythical", "unique"]
+    },
+    {
+      "id": "class-change-town-quest",
+      "kind": "town",
+      "oneTime": true,
+      "guaranteedReward": "class-change"
+    }
+  ]
+}

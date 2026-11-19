@@ -1,0 +1,24 @@
+{
+  "multiThresholdChoice": "prompt",
+  "classQuestRewardRarities": ["legendary", "mythical", "unique"],
+  "classes": [
+    {
+      "id": "warrior",
+      "thresholds": { "STR": 60, "VIT": 40 },
+      "baseSkillCount": 2,
+      "extraSkillMinRarity": "legendary"
+    },
+    {
+      "id": "archer",
+      "thresholds": { "AGI": 60, "DEX": 40 },
+      "baseSkillCount": 2,
+      "extraSkillMinRarity": "legendary"
+    },
+    {
+      "id": "mage",
+      "thresholds": { "INT": 60, "DEX": 40 },
+      "baseSkillCount": 2,
+      "extraSkillMinRarity": "legendary"
+    }
+  ]
+}

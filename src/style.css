@@ -1,0 +1,166 @@
+:root {
+  color: #efe6d2;
+  background: #141816;
+  font-family: Georgia, 'Iowan Old Style', serif;
+}
+
+html,
+body,
+#game {
+  margin: 0;
+  height: 100%;
+  background: #141816;
+  overflow: hidden;
+}
+
+#game {
+  position: fixed;
+  inset: 0;
+}
+
+#game canvas {
+  display: block;
+}
+
+#ui {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+#caption {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 2;
+  margin: 0;
+  pointer-events: none;
+  color: #efe6d2;
+  font-size: 16px;
+  text-shadow: 0 1px 2px #000;
+}
+
+.debug-panel {
+  pointer-events: auto;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  box-sizing: border-box;
+  width: min(320px, calc(100vw - 32px));
+  padding: 14px 14px 16px;
+  background: rgba(16, 20, 18, 0.94);
+  border: 1px solid #3d4a38;
+  color: #efe6d2;
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.debug-heading h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.debug-kicker {
+  margin: 0 0 2px;
+  color: #d7b15a;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.debug-note {
+  margin: 6px 0 0;
+  color: #b7c0ad;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.debug-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.debug-stats div {
+  padding: 8px;
+  background: #1c241e;
+  border: 1px solid #314033;
+}
+
+.debug-stats dt {
+  color: #8f9c86;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.debug-stats dd {
+  margin: 4px 0 0;
+  font-size: 18px;
+}
+
+.debug-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.debug-actions label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #c9d2c0;
+  font-size: 12px;
+}
+
+.debug-row {
+  display: flex;
+  gap: 6px;
+}
+
+.debug-panel button,
+.debug-panel input,
+.debug-panel select {
+  font: inherit;
+  color: #efe6d2;
+  background: #243028;
+  border: 1px solid #4d5c48;
+}
+
+.debug-panel button {
+  padding: 7px 8px;
+  cursor: pointer;
+}
+
+.debug-panel button:hover {
+  background: #314033;
+}
+
+.debug-panel input,
+.debug-panel select {
+  min-width: 0;
+  flex: 1;
+  padding: 6px 8px;
+}
+
+.boot-error {
+  pointer-events: auto;
+  max-width: 36rem;
+  margin: 2rem;
+  padding: 1.25rem 1.4rem;
+  background: #231816;
+  border: 1px solid #8a4b3a;
+}
+
+.boot-error h1 {
+  margin: 0 0 0.4rem;
+  font-size: 1.4rem;
+}
+
+.boot-error p {
+  margin: 0;
+  line-height: 1.45;
+}

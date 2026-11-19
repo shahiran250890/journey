@@ -28,6 +28,40 @@ describe('content schema', () => {
       ['mage', { INT: 60, DEX: 40 }],
     ]);
     expect(content.classes.classes.every((entry) => entry.baseSkillCount === 2)).toBe(true);
+    expect(content.classes.skillNumbers).toBe('unagreed');
+    expect(content.classes.classlessSkills.map((skill) => skill.name)).toEqual([
+      'Basic melee attack',
+      'Basic ranged attack',
+      'Basic magic attack',
+      'Dodge',
+    ]);
+    expect(
+      content.classes.classes.map((entry) => [entry.id, entry.skills.map((skill) => skill.name)]),
+    ).toEqual([
+      ['warrior', ['Cleave', 'Shield Bash', 'Whirlwind']],
+      ['archer', ['Multi-Shot', 'Roll Back', 'Arrow Rain']],
+      ['mage', ['Fireball', 'Frost Nova', 'Meteor']],
+    ]);
+    expect(content.classes.classes[0]!.skills[0]).toMatchObject({ tier: 'base', effect: 'AoE' });
+    expect(content.classes.classes[0]!.skills[1]).toMatchObject({ tier: 'base', effect: 'stun' });
+    expect(content.classes.classes[0]!.skills[2]).toMatchObject({
+      tier: 'extra',
+      minRarity: 'legendary',
+    });
+    expect(content.classes.classes[1]!.skills[1]).toMatchObject({ effect: 'dodge + shot' });
+    expect(content.classes.classes[2]!.skills[1]).toMatchObject({ effect: 'slow' });
+    for (const entry of content.classes.classes) {
+      const baseSkills = entry.skills.filter((skill) => skill.tier === 'base');
+      const extraSkills = entry.skills.filter((skill) => skill.tier === 'extra');
+      expect(baseSkills).toHaveLength(entry.baseSkillCount);
+      expect(
+        extraSkills.map((skill) => ('minRarity' in skill ? skill.minRarity : undefined)),
+      ).toEqual([entry.extraSkillMinRarity]);
+      for (const skill of entry.skills) {
+        expect(skill).not.toHaveProperty('damage');
+        expect(skill).not.toHaveProperty('cooldown');
+      }
+    }
     expect(content.rarity.tiers.map((tier) => [tier.id, tier.percent, tier.weight])).toEqual([
       ['common', 55, 5500],
       ['rare', 28, 2800],
@@ -86,5 +120,34 @@ describe('content schema', () => {
     const raw = shippedContentInput();
     raw.rules.classChange.bossDropChanceOutOf10000 = 1000;
     expect(() => loadContent(raw)).toThrow();
+  });
+
+  it('rejects a skill name that was not signed off', () => {
+    const raw = shippedContentInput();
+    raw.classes.classes[0]!.skills[0]!.name = 'Slash';
+    expect(() => loadContent(raw)).toThrow();
+  });
+
+  it('rejects a classless kit that drops a signed-off skill', () => {
+    const raw = shippedContentInput();
+    raw.classes.classlessSkills = raw.classes.classlessSkills.slice(0, 3);
+    expect(() => loadContent(raw)).toThrow();
+  });
+
+  it('rejects an extra skill below legendary', () => {
+    const raw = shippedContentInput();
+    const whirlwind = raw.classes.classes[0]!.skills[2]!;
+    whirlwind.minRarity = 'epic';
+    expect(() => loadContent(raw)).toThrow();
+  });
+
+  it('rejects damage and cooldown numbers while skill numbers are unagreed', () => {
+    const damage = shippedContentInput();
+    Object.assign(damage.classes.classes[0]!.skills[0]!, { damage: 10 });
+    expect(() => loadContent(damage)).toThrow();
+
+    const cooldown = shippedContentInput();
+    Object.assign(cooldown.classes.classes[2]!.skills[1]!, { cooldown: 3 });
+    expect(() => loadContent(cooldown)).toThrow();
   });
 });

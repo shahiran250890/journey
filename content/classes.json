@@ -1,24 +1,61 @@
 {
   "multiThresholdChoice": "prompt",
   "classQuestRewardRarities": ["legendary", "mythical", "unique"],
+  "skillNumbers": "unagreed",
+  "classlessSkills": [
+    {
+      "id": "basic-melee-attack",
+      "name": "Basic melee attack",
+      "kind": "attack",
+      "style": "melee"
+    },
+    {
+      "id": "basic-ranged-attack",
+      "name": "Basic ranged attack",
+      "kind": "attack",
+      "style": "ranged"
+    },
+    {
+      "id": "basic-magic-attack",
+      "name": "Basic magic attack",
+      "kind": "attack",
+      "style": "magic"
+    },
+    { "id": "dodge", "name": "Dodge", "kind": "dodge" }
+  ],
   "classes": [
     {
       "id": "warrior",
       "thresholds": { "STR": 60, "VIT": 40 },
       "baseSkillCount": 2,
-      "extraSkillMinRarity": "legendary"
+      "extraSkillMinRarity": "legendary",
+      "skills": [
+        { "id": "cleave", "name": "Cleave", "tier": "base", "effect": "AoE" },
+        { "id": "shield-bash", "name": "Shield Bash", "tier": "base", "effect": "stun" },
+        { "id": "whirlwind", "name": "Whirlwind", "tier": "extra", "minRarity": "legendary" }
+      ]
     },
     {
       "id": "archer",
       "thresholds": { "AGI": 60, "DEX": 40 },
       "baseSkillCount": 2,
-      "extraSkillMinRarity": "legendary"
+      "extraSkillMinRarity": "legendary",
+      "skills": [
+        { "id": "multi-shot", "name": "Multi-Shot", "tier": "base" },
+        { "id": "roll-back", "name": "Roll Back", "tier": "base", "effect": "dodge + shot" },
+        { "id": "arrow-rain", "name": "Arrow Rain", "tier": "extra", "minRarity": "legendary" }
+      ]
     },
     {
       "id": "mage",
       "thresholds": { "INT": 60, "DEX": 40 },
       "baseSkillCount": 2,
-      "extraSkillMinRarity": "legendary"
+      "extraSkillMinRarity": "legendary",
+      "skills": [
+        { "id": "fireball", "name": "Fireball", "tier": "base" },
+        { "id": "frost-nova", "name": "Frost Nova", "tier": "base", "effect": "slow" },
+        { "id": "meteor", "name": "Meteor", "tier": "extra", "minRarity": "legendary" }
+      ]
     }
   ]
 }

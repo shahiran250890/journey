@@ -22,9 +22,10 @@ const progressionSchema = z
   })
   .strict();
 
-function classEntry<Thresholds extends z.ZodType>(
+function classEntry<Thresholds extends z.ZodType, Skills extends z.ZodType>(
   id: 'warrior' | 'archer' | 'mage',
   thresholds: Thresholds,
+  skills: Skills,
 ) {
   return z
     .object({
@@ -32,6 +33,59 @@ function classEntry<Thresholds extends z.ZodType>(
       thresholds,
       baseSkillCount: z.literal(2),
       extraSkillMinRarity: z.literal('legendary'),
+      skills,
+    })
+    .strict();
+}
+
+function classlessAttack(id: string, name: string, style: 'melee' | 'ranged' | 'magic') {
+  return z
+    .object({
+      id: z.literal(id),
+      name: z.literal(name),
+      kind: z.literal('attack'),
+      style: z.literal(style),
+    })
+    .strict();
+}
+
+function classlessDodge(id: string, name: string) {
+  return z
+    .object({
+      id: z.literal(id),
+      name: z.literal(name),
+      kind: z.literal('dodge'),
+    })
+    .strict();
+}
+
+function baseSkill(id: string, name: string, effect?: string) {
+  if (effect === undefined) {
+    return z
+      .object({
+        id: z.literal(id),
+        name: z.literal(name),
+        tier: z.literal('base'),
+      })
+      .strict();
+  }
+  return z
+    .object({
+      id: z.literal(id),
+      name: z.literal(name),
+      tier: z.literal('base'),
+      effect: z.literal(effect),
+    })
+    .strict();
+}
+
+function extraSkill(id: string, name: string) {
+  return z
+    .object({
+      id: z.literal(id),
+      name: z.literal(name),
+      tier: z.literal('extra'),
+      minRarity: z.literal('legendary'),
     })
     .strict();
 }
@@ -44,10 +98,42 @@ const classesSchema = z
       z.literal('mythical'),
       z.literal('unique'),
     ]),
+    // Damage and cooldown are intentionally absent until those numbers are signed off.
+    skillNumbers: z.literal('unagreed'),
+    classlessSkills: z.tuple([
+      classlessAttack('basic-melee-attack', 'Basic melee attack', 'melee'),
+      classlessAttack('basic-ranged-attack', 'Basic ranged attack', 'ranged'),
+      classlessAttack('basic-magic-attack', 'Basic magic attack', 'magic'),
+      classlessDodge('dodge', 'Dodge'),
+    ]),
     classes: z.tuple([
-      classEntry('warrior', z.object({ STR: z.literal(60), VIT: z.literal(40) }).strict()),
-      classEntry('archer', z.object({ AGI: z.literal(60), DEX: z.literal(40) }).strict()),
-      classEntry('mage', z.object({ INT: z.literal(60), DEX: z.literal(40) }).strict()),
+      classEntry(
+        'warrior',
+        z.object({ STR: z.literal(60), VIT: z.literal(40) }).strict(),
+        z.tuple([
+          baseSkill('cleave', 'Cleave', 'AoE'),
+          baseSkill('shield-bash', 'Shield Bash', 'stun'),
+          extraSkill('whirlwind', 'Whirlwind'),
+        ]),
+      ),
+      classEntry(
+        'archer',
+        z.object({ AGI: z.literal(60), DEX: z.literal(40) }).strict(),
+        z.tuple([
+          baseSkill('multi-shot', 'Multi-Shot'),
+          baseSkill('roll-back', 'Roll Back', 'dodge + shot'),
+          extraSkill('arrow-rain', 'Arrow Rain'),
+        ]),
+      ),
+      classEntry(
+        'mage',
+        z.object({ INT: z.literal(60), DEX: z.literal(40) }).strict(),
+        z.tuple([
+          baseSkill('fireball', 'Fireball'),
+          baseSkill('frost-nova', 'Frost Nova', 'slow'),
+          extraSkill('meteor', 'Meteor'),
+        ]),
+      ),
     ]),
   })
   .strict();

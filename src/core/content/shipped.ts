@@ -25,11 +25,25 @@ export interface ContentDraft {
   classes: {
     multiThresholdChoice: string;
     classQuestRewardRarities: string[];
+    skillNumbers: string;
+    classlessSkills: {
+      id: string;
+      name: string;
+      kind: string;
+      style?: string;
+    }[];
     classes: {
       id: string;
       thresholds: Record<string, number>;
       baseSkillCount: number;
       extraSkillMinRarity: string;
+      skills: {
+        id: string;
+        name: string;
+        tier: string;
+        effect?: string;
+        minRarity?: string;
+      }[];
     }[];
   };
   rarity: {

@@ -1,8 +1,11 @@
 import preact from '@preact/preset-vite';
 import { defineConfig } from 'vitest/config';
 
+const basePath = process.env.BASE_PATH;
+const base = basePath && basePath.length > 0 ? basePath : './';
+
 export default defineConfig({
-  base: './',
+  base,
   plugins: [preact()],
   server: {
     host: '0.0.0.0',

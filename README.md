@@ -8,7 +8,7 @@ Requirements v0.2 are the source of the content. Where Muhammad approved differe
 
 - Phaser 3 renders. It does not own rules.
 - TypeScript in `strict` mode. The compiler is 6.0 because `typescript-eslint` does not yet accept TypeScript 7.
-- Vite bundles the client. `base` defaults to `./`, so the production build works from a domain root or a subpath.
+- Vite bundles the client. `base` defaults to `./`. Set `BASE_PATH` when the site is served from a subpath (`BASE_PATH=/journey/` for GitHub Pages).
 - Preact draws UI over the canvas.
 - Zod validates content JSON at load.
 - Vitest, ESLint, and Prettier.
@@ -50,9 +50,11 @@ Shipped JSON is validated by `src/core/content/schema.ts` on boot. A bad file st
 | Death             | respawn in town, no loss                                                 |
 | Simulation        | 20 ticks per second                                                      |
 
-Also recorded, because v0.2 states them: what each stat governs, two skills per class plus one extra from Legendary up (names are not in the doc, so they are not invented), gear slots, two artifact examples (`+20% crit chance`, and heal-on-kill with no amount), the example kill/collect/dungeon quests, the special class quest, controls, the three zones, and the proposed save policy (3 slots, autosave every 30 seconds).
+Also recorded, because v0.2 states them: what each stat governs, two skills per class plus one extra from Legendary up, gear slots, two artifact examples (`+20% crit chance`, and heal-on-kill with no amount), the example kill/collect/dungeon quests, the special class quest, controls, the three zones, and the proposed save policy (3 slots, autosave every 30 seconds).
 
-Not in the JSON, because the requirements do not give a number: the absolute XP amount for level 1, class skill names and stat multipliers, the heal-on-kill amount, monster combat stats, and which keys skills use. `xpMultiplierForLevel` returns the relative cost. Level 1 is `1`, level 2 is `1.2`, level 3 is `1.44`.
+Signed-off skill names live in `content/classes.json`. Classless: Basic melee attack, Basic ranged attack, Basic magic attack, and Dodge. Warrior: Cleave (AoE) and Shield Bash (stun), plus Whirlwind from Legendary up. Archer: Multi-Shot and Roll Back (dodge + shot), plus Arrow Rain from Legendary up. Mage: Fireball and Frost Nova (slow), plus Meteor from Legendary up. Damage and cooldowns are not on those objects. `skillNumbers` is `unagreed` until those numbers are signed off.
+
+Not in the JSON, because the requirements do not give a number: the absolute XP amount for level 1, stat multipliers, the heal-on-kill amount, monster combat stats, skill damage, skill cooldowns, and which keys skills use. `xpMultiplierForLevel` returns the relative cost. Level 1 is `1`, level 2 is `1.2`, level 3 is `1.44`.
 
 ## Save stub
 
@@ -83,22 +85,18 @@ npm run check      # lint, typecheck, test, and build
 
 `npm run check` is the gate: lint, both TypeScript projects (app and DOM-free core) plus the Vite config, unit tests, and the production build.
 
-`.github/workflows/ci.yml` runs that same gate on GitHub Actions. This repository is hosted on Cursor Origin, and Origin does not run that workflow. Until a CI runner is attached, run `npm run check` locally.
+`.github/workflows/ci.yml` is the only GitHub Actions workflow, so the gate is not run twice. Pull requests run `npm ci` and `npm run check`. A push to `main` runs that same check with `BASE_PATH=/journey/`, then deploys `dist/`.
 
-## Preview and static hosting
+## GitHub Pages
 
-Cursor Origin, as available from this environment, can host the git repository. It does not publish a static site or return a public preview URL for a Vite build. There is no Vercel, Netlify, or Cloudflare token here, and the owner does not want the project on GitHub, so a GitHub-connected host cannot be linked from this machine.
+The game is published at <https://shahiran250890.github.io/journey/>.
 
-The production build is a static `dist/` folder:
+A push to `main` deploys the production build with the official Pages actions: `actions/configure-pages`, `actions/upload-pages-artifact`, and `actions/deploy-pages`. `configure-pages` is called with `enablement: true`. Turning Pages on needs repository administration, which the workflow token may not have. If the deploy does not enable the site, set **Settings → Pages → Build and deployment → Source** to **GitHub Actions**, then re-run the workflow.
 
-- `vercel.json` sets the Vite framework, `npm run build`, and `dist`, and rewrites routes to `index.html`.
-- Asset URLs are relative (`base: './'`). For a host that serves the game from a subpath, build with `BASE_PATH=/that/subpath/ npm run build`.
+`BASE_PATH=/journey/` is set for that production build so asset URLs match the project-site path. A local `npm run build` leaves `BASE_PATH` unset and keeps `base` at `./`. For any other subpath, build with `BASE_PATH=/that/subpath/ npm run build`.
 
-To get a public preview, connect a static host to the Origin repository or deploy `dist/` by hand. Vercel does not list Cursor Origin as a Git provider. Practical options:
-
-1. From a machine logged into Vercel: `npx vercel` in this repo (the `vercel.json` is already in place), or import the project if Vercel gains an Origin integration.
-2. Any other static host (Cloudflare Pages, Netlify, an S3 bucket) pointed at `dist/` after `npm run build`. Relative asset paths mean the files do not need to live at the domain root.
+`vercel.json` is still there for an optional Vercel deploy: Vite framework, `npm run build`, output `dist/`, and a rewrite to `index.html`.
 
 ## Tests
 
-Unit tests cover the seeded RNG, the fixed-tick clock, command-driven simulation and interpolation, the shipped content schema (including rejection of the old +10-all rule and the old class thresholds), rarity tickets, the migration hook, and an IndexedDB round-trip through `fake-indexeddb`. Projection math and the `?debug=1` rule are tested too.
+Unit tests cover the seeded RNG, the fixed-tick clock, command-driven simulation and interpolation, the shipped content schema (including rejection of the old +10-all rule, the old class thresholds, and skill names that were not signed off), rarity tickets, the migration hook, and an IndexedDB round-trip through `fake-indexeddb`. Projection math and the `?debug=1` rule are tested too.

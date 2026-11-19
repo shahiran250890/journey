@@ -1,11 +1,12 @@
 import { loadShippedContent } from './core/content/shipped.ts';
 import { createGame } from './game/createGame.ts';
-import { placeholderSimulation } from './game/PlaceholderScene.ts';
+import { createJourneySimulation } from './game/world.ts';
 import { createBrowserSaveStore } from './platform/save/browserSave.ts';
 import './style.css';
+import { patchDebug } from './ui/debugStore.ts';
 import { mountUi } from './ui/mountUi.tsx';
 
-const PLACEHOLDER_SEED = 1;
+const WORLD_SEED = 1;
 
 async function main(): Promise<void> {
   const ui = document.querySelector('#ui');
@@ -16,14 +17,34 @@ async function main(): Promise<void> {
   try {
     const content = loadShippedContent();
     const save = await createBrowserSaveStore();
-    const simulation = placeholderSimulation(PLACEHOLDER_SEED);
+    const simulation = createJourneySimulation(content, WORLD_SEED);
     mountUi(ui, {
       tickHz: content.progression.tickHz,
       rarities: content.rarity.tiers.map((tier) => tier.id),
       onGrantXp: () => console.log('[debug] grant xp'),
       onForceRarity: (rarity) => console.log('[debug] force rarity', rarity),
       onSpawnItem: (itemId) => console.log('[debug] spawn item', itemId),
-      onTeleport: (x, y) => console.log('[debug] teleport', { x, y }),
+      onTeleport: (target) => {
+        try {
+          if (target.kind === 'coordinates') {
+            simulation.enqueue({
+              type: 'teleport',
+              zoneId: simulation.getState().zoneId,
+              x: target.x,
+              y: target.y,
+            });
+            return;
+          }
+          simulation.enqueue({
+            type: 'teleport',
+            zoneId: target.zoneId,
+            spawnId: target.spawnId,
+          });
+        } catch (error) {
+          console.error('[debug] teleport failed', error);
+        }
+      },
+      onToggleCollision: (show) => patchDebug({ showCollision: show }),
       onResetSave: () => {
         void save.clear('slot-1').then(
           () => console.log('[debug] reset save', 'slot-1'),

@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import type { Simulation } from '../core/simulation.ts';
-import { PlaceholderScene } from './PlaceholderScene.ts';
+import { WorldScene } from './WorldScene.ts';
 
 export function createGame(options: {
   parent: HTMLElement;
@@ -10,7 +10,7 @@ export function createGame(options: {
   return new Phaser.Game({
     type: Phaser.AUTO,
     parent: options.parent,
-    backgroundColor: '#141816',
+    backgroundColor: '#1a2420',
     banner: false,
     scale: {
       mode: Phaser.Scale.RESIZE,
@@ -18,7 +18,7 @@ export function createGame(options: {
       height: options.parent.clientHeight,
     },
     input: { keyboard: true },
-    scene: [PlaceholderScene],
+    scene: [WorldScene],
     callbacks: {
       preBoot: (game) => {
         game.registry.set('simulation', options.simulation);

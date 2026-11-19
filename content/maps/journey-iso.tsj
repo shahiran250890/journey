@@ -1,0 +1,372 @@
+{
+  "columns": 0,
+  "margin": 0,
+  "name": "journey-iso",
+  "spacing": 0,
+  "tilecount": 20,
+  "tileheight": 32,
+  "tilewidth": 64,
+  "type": "tileset",
+  "tiles": [
+    {
+      "id": 0,
+      "image": "tiles/grass.png",
+      "imagewidth": 64,
+      "imageheight": 32,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.5
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "image": "tiles/grass-alt.png",
+      "imagewidth": 64,
+      "imageheight": 32,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.5
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "image": "tiles/path.png",
+      "imagewidth": 64,
+      "imageheight": 32,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.5
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "image": "tiles/water.png",
+      "imagewidth": 64,
+      "imageheight": 32,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.5
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "image": "tiles/cobble.png",
+      "imagewidth": 64,
+      "imageheight": 32,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.5
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "image": "tiles/stone.png",
+      "imagewidth": 64,
+      "imageheight": 32,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.5
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "image": "tiles/spawn-mark.png",
+      "imagewidth": 64,
+      "imageheight": 32,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.5
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "image": "tiles/tree.png",
+      "imagewidth": 108,
+      "imageheight": 156,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.5
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "image": "tiles/pine.png",
+      "imagewidth": 108,
+      "imageheight": 156,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.5
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "image": "tiles/rock.png",
+      "imagewidth": 72,
+      "imageheight": 64,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.5
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "image": "tiles/bush.png",
+      "imagewidth": 64,
+      "imageheight": 48,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.5
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "image": "tiles/house-red.png",
+      "imagewidth": 192,
+      "imageheight": 152,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.585938
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 0.993421
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "image": "tiles/house-blue.png",
+      "imagewidth": 160,
+      "imageheight": 132,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.503125
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 0.992424
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "image": "tiles/house-brown.png",
+      "imagewidth": 192,
+      "imageheight": 152,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.585938
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 0.993421
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "image": "tiles/cave.png",
+      "imagewidth": 150,
+      "imageheight": 168,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.5
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "image": "tiles/npc.png",
+      "imagewidth": 48,
+      "imageheight": 86,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.5
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "image": "tiles/wall.png",
+      "imagewidth": 96,
+      "imageheight": 96,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.505208
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 0.989583
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "image": "tiles/pillar.png",
+      "imagewidth": 96,
+      "imageheight": 120,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.505208
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 0.991667
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "image": "tiles/sealed.png",
+      "imagewidth": 128,
+      "imageheight": 124,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.628906
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 0.991935
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "image": "tiles/well.png",
+      "imagewidth": 64,
+      "imageheight": 72,
+      "properties": [
+        {
+          "name": "originX",
+          "type": "float",
+          "value": 0.5
+        },
+        {
+          "name": "originY",
+          "type": "float",
+          "value": 1
+        }
+      ]
+    }
+  ]
+}

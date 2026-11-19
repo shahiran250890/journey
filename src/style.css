@@ -84,6 +84,10 @@ body,
   margin: 14px 0;
 }
 
+.debug-wide {
+  grid-column: 1 / -1;
+}
+
 .debug-stats div {
   padding: 8px;
   background: #1c241e;
@@ -116,9 +120,26 @@ body,
   font-size: 12px;
 }
 
-.debug-row {
+.debug-row,
+.debug-presets {
   display: flex;
   gap: 6px;
+}
+
+.debug-presets button {
+  flex: 1;
+}
+
+.debug-actions label.debug-check {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.debug-check input {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
 }
 
 .debug-panel button,
